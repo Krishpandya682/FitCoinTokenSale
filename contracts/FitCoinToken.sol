@@ -32,7 +32,7 @@ contract FitCoinToken {
             }
 
     //Transfer
-    function transfer(address _to, uint256 _value) public returns (bool success){
+    function transfer(address _to, uint256 _value) public payable returns (bool success){
         require (balanceOf[msg.sender] >= _value, "Transfer failed due to insufficient funds, revert the transfer");
         
         balanceOf[msg.sender] -= _value;

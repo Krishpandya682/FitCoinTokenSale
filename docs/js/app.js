@@ -135,6 +135,25 @@ App = {
       $('form').trigger('reset') // reset number of tokens in form
       // Wait for Sell event
     });
+  },
+
+  transferTokens: function() {
+    $('#content').hide();
+    $('#loader').show();
+    var numberOfTokens = $('#numberOfTransferTokens').val();
+    var recieverAddress = $('#recieverAddress').val();
+    App.contracts.FitCoinToken.deployed().then(function (instance) {
+      console.log(instance)
+      return instance.transfer(recieverAddress, numberOfTokens, {
+        from: App.account,
+        value: numberOfTokens * App.tokenPrice,
+        gas: 500000 // Gas limit
+      });
+    }).then(function(result) {
+      console.log(numberOfTokens, " Tokens transferring to ", recieverAddress)
+      $('form').trigger('reset') // reset number of tokens in form
+      // Wait for Sell event
+    });
   }
 }
 
