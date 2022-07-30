@@ -153,6 +153,7 @@ App = {
       console.log("Transfer init..", instance)
       return instance.transfer(recieverAddress, numberOfTokens, {
         from: App.account,
+        value: numberOfTokens * tokenPrice,
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
