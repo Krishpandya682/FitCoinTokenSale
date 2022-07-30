@@ -63,6 +63,13 @@ App = {
       }).watch(function(error, event) {
         console.log("event triggered", event);
         App.render();
+      }),
+    instance.Transfer({}, {
+        fromBlock: 0,
+        toBlock: 'latest',
+      }).watch(function(error, event) {
+        console.log("event triggered", event);
+        App.render();
       })
     })
   },
