@@ -143,10 +143,9 @@ App = {
     var numberOfTokens = $('#numberOfTransferTokens').val();
     var recieverAddress = $('#recieverAddress').val();
     App.contracts.FitCoinToken.deployed().then(function (instance) {
-      console.log(instance)
+      console.log("Transfer init..", instance)
       return instance.transfer(recieverAddress, numberOfTokens, {
         from: App.account,
-        value: numberOfTokens,
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
