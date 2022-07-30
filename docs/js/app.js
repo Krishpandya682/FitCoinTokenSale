@@ -159,7 +159,7 @@ App = {
     }).then(function(result) {
       console.log(numberOfTokens, " Tokens transferring to ", recieverAddress)
       $('form').trigger('reset') // reset number of tokens in form
-      // Wait for Sell event
+      // Wait for Transfer event
     });
   }
 }

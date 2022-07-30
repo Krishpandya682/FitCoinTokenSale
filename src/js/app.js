@@ -63,6 +63,13 @@ App = {
       }).watch(function(error, event) {
         console.log("event triggered", event);
         App.render();
+      }),
+    instance.Transfer({}, {
+        fromBlock: 0,
+        toBlock: 'latest',
+      }).watch(function(error, event) {
+        console.log("event triggered", event);
+        App.render();
       })
     })
   },
@@ -143,16 +150,16 @@ App = {
     var numberOfTokens = $('#numberOfTransferTokens').val();
     var recieverAddress = $('#recieverAddress').val();
     App.contracts.FitCoinToken.deployed().then(function (instance) {
-      console.log(instance)
+      console.log("Transfer init..", instance)
       return instance.transfer(recieverAddress, numberOfTokens, {
         from: App.account,
-        value: numberOfTokens,
+        value: numberOfTokens * tokenPrice,
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
       console.log(numberOfTokens, " Tokens transferring to ", recieverAddress)
       $('form').trigger('reset') // reset number of tokens in form
-      // Wait for Sell event
+      // Wait for Transfer event
     });
   }
 }
