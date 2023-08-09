@@ -3,8 +3,8 @@ App = {
   contracts: {},
   account: '0x0',
   loading: false,
-  tokenPrice: 1000000000000000,
-  tokensSold: 0,
+  tokenPrice: 6900000000000000,
+  tokensSold: 69,
   tokensAvailable: 750000,
 
   init: function() {
@@ -107,6 +107,7 @@ App = {
       return tokenSaleInstance.tokensSold();
     }).then(function(tokensSold) {
       App.tokensSold = tokensSold.toNumber(); 
+      console.log("Tokens sold = ", tokensSold.toNumber());
       $('.tokens-sold').html(App.tokensSold);
       $('.tokens-available').html(App.tokensAvailable);
 
@@ -131,15 +132,27 @@ App = {
     $('#content').hide();
     $('#loader').show();
     var numberOfTokens = $('#numberOfTokens').val();
+
+    console.log("Number of tokens = ", numberOfTokens);
+
     App.contracts.FitCoinTokenSale.deployed().then(function(instance) {
+      try{
       return instance.buyTokens(numberOfTokens, {
         from: App.account,
         value: numberOfTokens * App.tokenPrice,
         gas: 500000 // Gas limit
+        
       });
+    }catch(error){
+
+      console.log("Revert message:", error.message);
+
+    }
     }).then(function(result) {
       console.log("Tokens bought...")
       $('form').trigger('reset') // reset number of tokens in form
+      $('#loader').hide();
+      $('#content').show();
       // Wait for Sell event
     });
   },
@@ -153,13 +166,16 @@ App = {
       console.log("Transfer init..", instance)
       return instance.transfer(recieverAddress, numberOfTokens, {
         from: App.account,
-        value: numberOfTokens * tokenPrice,
+        value: numberOfTokens * App.tokenPrice,
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
       console.log(numberOfTokens, " Tokens transferring to ", recieverAddress)
       $('form').trigger('reset') // reset number of tokens in form
       // Wait for Transfer event
+      $('#loader').hide();
+      $('#content').show();
+      location.reload();  
     });
   }
 }
