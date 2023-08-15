@@ -22,7 +22,9 @@
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
-
+require("dotenv").config();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const { INFURA_API_KEY, MNEMONIC } = process.env;
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -47,11 +49,16 @@ module.exports = {
      network_id: "*",       // Any network (default: none)
     },
     sepolia: {
-      host: "localhost",
-      port: 8545,
-      network_id: 11155111,
-      gas: 4700000
+      provider: () => new HDWalletProvider(MNEMONIC, INFURA_API_KEY),
+      network_id: "11155111",
+      gas: 4465030,
     },
+    // sepolia: {
+    //   host: "localhost",
+    //   port: 8545,
+    //   network_id: 11155111,
+    //   gas: 4700000
+    // },
     rinkeby: {
       host: "localhost",
       port: 8545,
